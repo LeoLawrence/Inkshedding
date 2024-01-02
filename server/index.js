@@ -3,14 +3,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose(); // SQLite database
+const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors()); // Enable CORS
-app.use(bodyParser.json()); // Parse JSON request bodies
+app.use(bodyParser.json());
 
 // Create a new SQLite database (or open an existing one)
 const db = new sqlite3.Database('inkshedding.db', (err) => {
@@ -31,13 +31,11 @@ const db = new sqlite3.Database('inkshedding.db', (err) => {
 });
 
 
-// Define routes and controllers here
-
-  // Insert a new Inkshed into the database
+// Insert a new Inkshed into the database
 app.post('/api/inksheds', (req, res) => {
     const { content } = req.body;
   
-    // Use an SQL INSERT statement to add the Inkshed to the 'inksheds' table
+    // Add the Inkshed to the 'inksheds' table
     const sql = 'INSERT INTO inksheds (content) VALUES (?)';
     
     db.run(sql, [content], function (err) {
@@ -45,7 +43,7 @@ app.post('/api/inksheds', (req, res) => {
         console.error('Error inserting Inkshed:', err.message);
         res.status(500).json({ error: 'Internal Server Error' });
       } else {
-        // Send a response indicating success, along with the ID of the newly inserted Inkshed
+        // Response indicating success, along with the ID of the newly inserted Inkshed
         res.status(201).json({ id: this.lastID, content });
       }
     });
@@ -115,9 +113,8 @@ app.delete('/api/inksheds/:id', (req, res) => {
     });
   });
 
-// Define your API route for deleting all records
+// Deleting all records EXPERIMENTAL
 app.delete('/api/inksheds/delete-all', (req, res) => {
-  // Implement the logic to delete all records from your table here
   db.run('DELETE FROM inksheds', (err) => {
     if (err) {
       console.error('Error deleting records:', err);
