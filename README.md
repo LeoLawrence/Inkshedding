@@ -38,6 +38,7 @@ There is not ETA on when this project will be complete. The project worked great
 
 ## Roadmap
 
+- Rearchitecture with MVC
 - Secure API routes and application
 - Write API documentation
 - Integrate login functionality with JWT authentication
